@@ -1,0 +1,128 @@
+header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(240, 240, 240, 0.92);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 16px -8px rgba(0, 0, 0, 0.15);
+}
+.nav-row {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  height: 76px;
+}
+.logo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: -0.01em;
+  flex-shrink: 0;
+}
+.logo span {
+  font-style: normal;
+  color: var(--accent);
+}
+
+nav.primary-nav {
+  display: flex;
+  gap: 26px;
+  flex: 1;
+}
+nav.primary-nav a {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+nav.primary-nav a:hover {
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--panel);
+  border-radius: 999px;
+  padding: 9px 16px;
+  width: 230px;
+  box-shadow: var(--shadow-inset-sm);
+  transition:
+    box-shadow 0.15s,
+    width 0.2s;
+  color: var(--ink-soft);
+}
+.search-box:focus-within {
+  box-shadow: var(--shadow-inset-sm), 0 0 0 3px var(--accent-soft);
+  width: 270px;
+}
+.search-box input {
+  border: none;
+  outline: none;
+  font-size: 13.5px;
+  background: none;
+  width: 100%;
+  font-family: inherit;
+  color: var(--ink);
+}
+
+.cart-badge {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.hamburger {
+  display: none;
+}
+
+.mobile-nav {
+  display: none;
+  flex-direction: column;
+  padding: 4px 20px 16px;
+}
+.mobile-nav a {
+  padding: 10px 0;
+  font-size: 15px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-soft);
+}
+.mobile-nav a:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 860px) {
+  nav.primary-nav,
+  .search-box {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
+  .mobile-nav {
+    display: flex;
+  }
+}

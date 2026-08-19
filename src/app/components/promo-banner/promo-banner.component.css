@@ -1,0 +1,61 @@
+.ticket {
+  background: var(--ink);
+  color: #f0f0f0;
+  border-radius: var(--radius-lg);
+  padding: 34px 46px;
+  margin: 0 0 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-raised);
+}
+.ticket::before,
+.ticket::after {
+  content: '';
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  background: var(--bg);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.ticket::before {
+  left: -13px;
+}
+.ticket::after {
+  right: -13px;
+}
+.ticket .tline {
+  position: absolute;
+  left: 132px;
+  right: 132px;
+  top: 0;
+  bottom: 0;
+  border-left: 2px dashed rgba(240, 240, 240, 0.22);
+}
+.ticket h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+.ticket p {
+  margin: 0;
+  color: #b6b6b6;
+  font-size: 14px;
+}
+
+@media (max-width: 860px) {
+  .ticket {
+    flex-direction: column;
+    text-align: center;
+    padding: 32px 26px;
+  }
+  .ticket .tline {
+    display: none;
+  }
+}

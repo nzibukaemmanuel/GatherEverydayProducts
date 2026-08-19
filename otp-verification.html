@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Verify OTP — Gather Everyday Products</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --black: #000000;
+        --orange: #f16522;
+        --orange-soft: rgba(241, 101, 34, 0.18);
+        --gray: #9a9a9a;
+        --bg-1: #f0f0f0;
+        --bg-2: #e6e6e6;
+        --shadow-dark: #d1d1d1;
+        --shadow-light: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      body {
+        font-family: 'Inter', 'Poppins', sans-serif;
+        background: linear-gradient(145deg, var(--bg-1), var(--bg-2));
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        color: var(--black);
+      }
+
+      .card {
+        width: 100%;
+        max-width: 400px;
+        background: var(--bg-1);
+        border-radius: 20px;
+        padding: 48px 40px 40px;
+        text-align: center;
+        box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+      }
+
+      .icon-wrap {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg-1);
+        box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+      }
+
+      .icon-wrap svg {
+        width: 26px;
+        height: 26px;
+      }
+
+      h1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0 0 10px;
+        color: var(--black);
+      }
+
+      .subtext {
+        font-size: 13.5px;
+        line-height: 1.6;
+        color: var(--gray);
+        margin: 0 0 32px;
+      }
+
+      .subtext strong {
+        color: var(--black);
+        font-weight: 600;
+      }
+
+      .otp-row {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 30px;
+      }
+
+      .otp-box {
+        width: 50px;
+        height: 56px;
+        border: none;
+        border-radius: 12px;
+        background: var(--bg-1);
+        text-align: center;
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--black);
+        outline: none;
+        box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+        transition: box-shadow 0.15s ease;
+        caret-color: var(--orange);
+      }
+
+      .otp-box::placeholder {
+        color: var(--gray);
+      }
+
+      .otp-box:focus {
+        box-shadow:
+          inset 2px 2px 5px var(--shadow-dark),
+          inset -2px -2px 5px var(--shadow-light),
+          0 0 0 3px var(--orange-soft);
+      }
+
+      .otp-box.filled {
+        color: var(--orange);
+      }
+
+      .verify-btn {
+        width: 100%;
+        height: 50px;
+        border: none;
+        border-radius: 25px;
+        background: var(--orange);
+        color: var(--black);
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        cursor: pointer;
+        box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+        transition:
+          transform 0.12s ease,
+          box-shadow 0.12s ease,
+          opacity 0.15s ease;
+      }
+
+      .verify-btn:active {
+        transform: translateY(1px);
+        box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.15), inset -4px -4px 8px rgba(255, 255, 255, 0.4);
+      }
+
+      .verify-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .resend {
+        margin-top: 22px;
+        font-size: 12.5px;
+      }
+
+      .resend-link {
+        background: none;
+        border: none;
+        font-family: inherit;
+        font-size: 12.5px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--gray);
+        cursor: pointer;
+        padding: 4px;
+      }
+
+      .resend-link:hover:not(:disabled) {
+        color: var(--orange);
+      }
+
+      .resend-link:disabled {
+        cursor: default;
+        color: var(--gray);
+      }
+
+      .resend-timer {
+        color: var(--gray);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="icon-wrap" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="10" width="14" height="10" rx="2.5" fill="var(--orange)" opacity="0.15" />
+          <rect
+            x="5"
+            y="10"
+            width="14"
+            height="10"
+            rx="2.5"
+            stroke="var(--black)"
+            stroke-width="1.6"
+          />
+          <path
+            d="M8 10V7a4 4 0 0 1 8 0v3"
+            stroke="var(--black)"
+            stroke-width="1.6"
+            stroke-linecap="round"
+          />
+          <circle cx="12" cy="14.5" r="1.6" fill="var(--orange)" />
+          <path d="M12 16v1.6" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <h1>Verify Your OTP</h1>
+      <p class="subtext">
+        A 6-digit code has been sent to<br />
+        <strong>+91 XXXXX 00945</strong>
+      </p>
+
+      <form id="otp-form">
+        <div class="otp-row">
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 1" />
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2" />
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3" />
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4" />
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5" />
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6" />
+        </div>
+
+        <button class="verify-btn" type="submit" id="verify-btn" disabled>Verify OTP</button>
+      </form>
+
+      <div class="resend">
+        <button class="resend-link" id="resend-btn" disabled>
+          Resend OTP <span class="resend-timer" id="resend-timer">(30s)</span>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const boxes = Array.from(document.querySelectorAll('.otp-box'));
+      const verifyBtn = document.getElementById('verify-btn');
+      const resendBtn = document.getElementById('resend-btn');
+      const resendTimer = document.getElementById('resend-timer');
+      const form = document.getElementById('otp-form');
+
+      function updateVerifyState() {
+        const allFilled = boxes.every((b) => b.value.length === 1);
+        verifyBtn.disabled = !allFilled;
+      }
+
+      boxes.forEach((box, i) => {
+        box.addEventListener('input', () => {
+          box.value = box.value.replace(/[^0-9]/g, '').slice(0, 1);
+          box.classList.toggle('filled', box.value.length === 1);
+          if (box.value && i < boxes.length - 1) {
+            boxes[i + 1].focus();
+          }
+          updateVerifyState();
+        });
+
+        box.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && !box.value && i > 0) {
+            boxes[i - 1].focus();
+          }
+        });
+
+        box.addEventListener('paste', (e) => {
+          e.preventDefault();
+          const digits = (e.clipboardData.getData('text') || '').replace(/[^0-9]/g, '').split('');
+          digits.slice(0, boxes.length - i).forEach((d, j) => {
+            boxes[i + j].value = d;
+            boxes[i + j].classList.add('filled');
+          });
+          const next = boxes[Math.min(i + digits.length, boxes.length - 1)];
+          next.focus();
+          updateVerifyState();
+        });
+      });
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const code = boxes.map((b) => b.value).join('');
+        alert('Verifying code: ' + code + ' (demo only)');
+      });
+
+      let seconds = 30;
+      function tick() {
+        if (seconds <= 0) {
+          resendBtn.disabled = false;
+          resendTimer.textContent = '';
+          return;
+        }
+        resendTimer.textContent = '(' + seconds + 's)';
+        seconds -= 1;
+        setTimeout(tick, 1000);
+      }
+      tick();
+
+      resendBtn.addEventListener('click', () => {
+        if (resendBtn.disabled) return;
+        resendBtn.disabled = true;
+        seconds = 30;
+        boxes.forEach((b) => {
+          b.value = '';
+          b.classList.remove('filled');
+        });
+        boxes[0].focus();
+        updateVerifyState();
+        tick();
+      });
+
+      boxes[0].focus();
+    </script>
+  </body>
+</html>

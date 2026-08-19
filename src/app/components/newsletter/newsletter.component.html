@@ -1,0 +1,22 @@
+<div class="wrap">
+  <div class="newsletter">
+    <div>
+      <h3>Get first look at new drops</h3>
+      <p>One email a week. New studios, restocks, and seasonal edits.</p>
+    </div>
+    <form class="nl-form" (ngSubmit)="subscribe()">
+      <div class="nl-field">
+        <input
+          type="email"
+          [formControl]="email"
+          placeholder="you@email.com"
+          [class.err]="email.invalid && email.touched"
+        />
+        @if (email.invalid && email.touched) {
+          <span class="nl-err">Enter a valid email address.</span>
+        }
+      </div>
+      <button class="btn btn-accent" type="submit">Subscribe</button>
+    </form>
+  </div>
+</div>

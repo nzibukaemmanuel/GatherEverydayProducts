@@ -1,0 +1,123 @@
+.hero {
+  padding: 76px 0 88px;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.92fr;
+  gap: 64px;
+  align-items: center;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 56px;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  margin: 18px 0 22px;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--accent);
+}
+.hero .lede {
+  font-size: 17px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 440px;
+  margin: 0 0 32px;
+}
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.link-under {
+  font-size: 14px;
+  font-weight: 600;
+  border-bottom: 1.5px solid var(--ink);
+  padding-bottom: 2px;
+}
+
+.hero-collage {
+  position: relative;
+  height: 420px;
+}
+.tag-card {
+  position: absolute;
+  background: var(--panel);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-raised);
+  padding: 22px;
+  width: 198px;
+}
+.tag-card .icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.tag-card .sku {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  letter-spacing: 0.06em;
+}
+.tag-card .pname {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 4px 0 2px;
+}
+.tag-card .pprice {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  color: var(--accent-deep);
+  font-weight: 600;
+}
+
+.tc-1 {
+  top: 0;
+  left: 20px;
+  transform: rotate(-3deg);
+  z-index: 2;
+}
+.tc-2 {
+  top: 150px;
+  left: 190px;
+  transform: rotate(2deg);
+  z-index: 3;
+}
+.tc-3 {
+  top: 280px;
+  left: 8px;
+  transform: rotate(4deg);
+  z-index: 1;
+  background: var(--ink);
+  color: #fff;
+  box-shadow: var(--shadow-raised);
+}
+.tc-3 .sku {
+  color: #b6b6b6;
+}
+.tc-3 .pprice {
+  color: var(--accent);
+}
+.tc-3-icon {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+  color: var(--accent);
+}
+
+@media (max-width: 860px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero h1 {
+    font-size: 38px;
+  }
+  .hero-collage {
+    display: none;
+  }
+}

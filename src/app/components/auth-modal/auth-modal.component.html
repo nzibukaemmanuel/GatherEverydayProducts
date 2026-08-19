@@ -1,0 +1,398 @@
+<div
+  class="overlay"
+  [class.show]="modalState.open"
+  tabindex="-1"
+  (click)="$event.target === $event.currentTarget && close()"
+  (keydown.escape)="close()"
+>
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" aria-label="Close" (click)="close()">
+      <app-icon name="close" [size]="18"></app-icon>
+    </button>
+
+    <!-- ================= LOGIN / SIGNUP ================= -->
+    @if (view === 'auth') {
+      <div>
+        <div class="auth-tabs">
+          <button [class.active]="activeTab === 'login'" (click)="setTab('login')">Log in</button>
+          <button [class.active]="activeTab === 'signup'" (click)="setTab('signup')">
+            Create account
+          </button>
+        </div>
+
+        <!-- LOGIN -->
+        @if (activeTab === 'login') {
+          <div>
+            <h2>Welcome back</h2>
+            <p class="sub">Log in to check order status, saved items and faster checkout.</p>
+
+            <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+              <div class="field">
+                <label for="li-email">Email</label>
+                <input
+                  id="li-email"
+                  type="email"
+                  formControlName="email"
+                  placeholder="you@email.com"
+                  [class.err]="loginForm.get('email')!.invalid && loginForm.get('email')!.touched"
+                />
+              </div>
+
+              <div
+                class="field"
+                [class.has-error]="
+                  loginError ||
+                  (loginForm.get('password')!.invalid && loginForm.get('password')!.touched)
+                "
+              >
+                <label for="li-pass">Password</label>
+                <div class="input-wrap">
+                  <input
+                    id="li-pass"
+                    [type]="inputType('login')"
+                    formControlName="password"
+                    placeholder="Enter your password"
+                    [class.err]="
+                      loginError ||
+                      (loginForm.get('password')!.invalid && loginForm.get('password')!.touched)
+                    "
+                  />
+                  <button type="button" class="toggle-vis" (click)="toggleVisibility('login')">
+                    <app-icon
+                      [name]="visibility['login'] ? 'eye-off' : 'eye'"
+                      [size]="18"
+                    ></app-icon>
+                  </button>
+                </div>
+                <div class="err-msg">
+                  <span>⚠</span><span>Incorrect email or password — try again.</span>
+                </div>
+              </div>
+
+              <a class="forgot-link" href="#" (click)="$event.preventDefault(); openForgot()"
+                >Forgot password?</a
+              >
+              <button class="btn btn-primary btn-block" type="submit">Log in</button>
+            </form>
+
+            <div class="dev-note">
+              Field states to design — default, focus,
+              <button type="button" (click)="previewLoginError()">error →</button>
+            </div>
+
+            <div class="divider">or continue with</div>
+            <div class="social-auth">
+              <button class="btn btn-ghost" type="button">Google</button>
+              <button class="btn btn-ghost" type="button">Apple</button>
+            </div>
+            <p class="switch-line">
+              New to Gather?
+              <button type="button" (click)="setTab('signup')">Create an account</button>
+            </p>
+          </div>
+        }
+
+        <!-- SIGNUP -->
+        @if (activeTab === 'signup') {
+          <div>
+            <h2>Create your account</h2>
+            <p class="sub">Takes under a minute — free shipping on your first order.</p>
+
+            <form [formGroup]="signupForm" (ngSubmit)="onSignupSubmit()">
+              <div class="field">
+                <label for="su-name">Full name</label>
+                <input
+                  id="su-name"
+                  type="text"
+                  formControlName="name"
+                  placeholder="Jordan Ellis"
+                  [class.err]="signupForm.get('name')!.invalid && signupForm.get('name')!.touched"
+                />
+              </div>
+
+              <div class="field">
+                <label for="su-email">Email</label>
+                <input
+                  id="su-email"
+                  type="email"
+                  formControlName="email"
+                  placeholder="you@email.com"
+                  [class.err]="signupForm.get('email')!.invalid && signupForm.get('email')!.touched"
+                />
+              </div>
+
+              <div class="field">
+                <label for="su-pass">Password</label>
+                <div class="input-wrap">
+                  <input
+                    id="su-pass"
+                    [type]="inputType('signupPass')"
+                    formControlName="password"
+                    placeholder="At least 8 characters"
+                    [class.err]="
+                      signupForm.get('password')!.invalid && signupForm.get('password')!.touched
+                    "
+                  />
+                  <button type="button" class="toggle-vis" (click)="toggleVisibility('signupPass')">
+                    <app-icon
+                      [name]="visibility['signupPass'] ? 'eye-off' : 'eye'"
+                      [size]="18"
+                    ></app-icon>
+                  </button>
+                </div>
+                @if (signupForm.get('password')!.value) {
+                  <div class="strength" [ngClass]="'s' + signupStrength()">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                }
+              </div>
+
+              <div
+                class="field"
+                [class.has-error]="
+                  signupForm.get('confirm')!.hasError('passwordsMismatch') &&
+                  signupForm.get('confirm')!.touched
+                "
+              >
+                <label for="su-confirm">Confirm password</label>
+                <div class="input-wrap">
+                  <input
+                    id="su-confirm"
+                    [type]="inputType('signupConfirm')"
+                    formControlName="confirm"
+                    placeholder="Re-enter password"
+                    [class.err]="
+                      signupForm.get('confirm')!.hasError('passwordsMismatch') &&
+                      signupForm.get('confirm')!.touched
+                    "
+                  />
+                  <button
+                    type="button"
+                    class="toggle-vis"
+                    (click)="toggleVisibility('signupConfirm')"
+                  >
+                    <app-icon
+                      [name]="visibility['signupConfirm'] ? 'eye-off' : 'eye'"
+                      [size]="18"
+                    ></app-icon>
+                  </button>
+                </div>
+                <div class="err-msg"><span>⚠</span><span>Passwords don't match.</span></div>
+              </div>
+
+              <div class="check-row">
+                <input type="checkbox" id="su-terms" formControlName="terms" />
+                <label for="su-terms"
+                  >I agree to the <a href="#">Terms of Service</a> and
+                  <a href="#">Privacy Policy</a>.</label
+                >
+              </div>
+
+              <button class="btn btn-primary btn-block" type="submit" [disabled]="signupSubmitting">
+                {{ signupSubmitting ? 'Creating account…' : 'Create account' }}
+              </button>
+            </form>
+
+            <p class="switch-line">
+              Already have an account?
+              <button type="button" (click)="setTab('login')">Log in</button>
+            </p>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- ================= FORGOT PASSWORD ================= -->
+    @if (view === 'forgot') {
+      <div>
+        <!-- Step 1: request -->
+        @if (forgotStep === 1) {
+          <div>
+            <span
+              class="step-back"
+              role="button"
+              tabindex="0"
+              (click)="backToLogin()"
+              (keydown.enter)="backToLogin()"
+              (keydown.space)="backToLogin()"
+              ><app-icon name="chevron-left" [size]="15"></app-icon> Back to log in</span
+            >
+            <div class="fp-icon ic-teal"><app-icon name="key" [size]="26"></app-icon></div>
+            <h2>Reset your password</h2>
+            <p class="sub">
+              Enter the email on your account and we'll send a link to reset your password.
+            </p>
+
+            <form [formGroup]="forgotForm" (ngSubmit)="onForgotEmailSubmit()">
+              <div
+                class="field"
+                [class.has-error]="
+                  forgotForm.get('email')!.invalid && forgotForm.get('email')!.touched
+                "
+              >
+                <label for="fp-email">Email</label>
+                <input
+                  id="fp-email"
+                  type="email"
+                  formControlName="email"
+                  placeholder="you@email.com"
+                  [class.err]="forgotForm.get('email')!.invalid && forgotForm.get('email')!.touched"
+                />
+                <div class="err-msg"><span>⚠</span><span>Enter a valid email address.</span></div>
+              </div>
+              <button class="btn btn-primary btn-block" type="submit">Send reset link</button>
+            </form>
+          </div>
+        }
+
+        <!-- Step 2: check inbox -->
+        @if (forgotStep === 2) {
+          <div>
+            <div class="fp-icon ic-accent"><app-icon name="mail" [size]="26"></app-icon></div>
+            <h2>Check your inbox</h2>
+            <p class="sub">
+              We sent a reset link to <span class="email-echo">{{ resetEmail }}</span
+              >. The link expires in 30 minutes.
+            </p>
+            <button
+              class="btn btn-ghost btn-block"
+              [disabled]="resendDisabled"
+              (click)="resendLink()"
+            >
+              {{ resendDisabled ? 'Link sent again ✓' : 'Resend link' }}
+            </button>
+            <span
+              class="step-back"
+              role="button"
+              tabindex="0"
+              style="margin-top: 20px; margin-bottom: 0"
+              (click)="backToLogin()"
+              (keydown.enter)="backToLogin()"
+              (keydown.space)="backToLogin()"
+            >
+              <app-icon name="chevron-left" [size]="15"></app-icon> Back to log in
+            </span>
+            <div class="dev-note">
+              Prototype note — normally this screen is reached by clicking the emailed link.
+              <button type="button" (click)="goStep(3)">Continue to reset password →</button>
+            </div>
+          </div>
+        }
+
+        <!-- Step 3: new password -->
+        @if (forgotStep === 3) {
+          <div>
+            <div class="fp-icon ic-teal"><app-icon name="key" [size]="26"></app-icon></div>
+            <h2>Set a new password</h2>
+            <p class="sub">
+              Choose a new password for <span class="email-echo">{{ resetEmail }}</span
+              >.
+            </p>
+
+            <form [formGroup]="resetForm" (ngSubmit)="onResetSubmit()">
+              <div class="field">
+                <label for="np-pass">New password</label>
+                <div class="input-wrap">
+                  <input
+                    id="np-pass"
+                    [type]="inputType('resetPass')"
+                    formControlName="password"
+                    placeholder="At least 8 characters"
+                  />
+                  <button type="button" class="toggle-vis" (click)="toggleVisibility('resetPass')">
+                    <app-icon
+                      [name]="visibility['resetPass'] ? 'eye-off' : 'eye'"
+                      [size]="18"
+                    ></app-icon>
+                  </button>
+                </div>
+                @if (resetForm.get('password')!.value) {
+                  <div class="strength" [ngClass]="'s' + resetStrength()">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                }
+              </div>
+
+              <div
+                class="field"
+                [class.has-error]="
+                  resetForm.get('confirm')!.hasError('passwordsMismatch') &&
+                  resetForm.get('confirm')!.touched
+                "
+              >
+                <label for="np-confirm">Confirm new password</label>
+                <div class="input-wrap">
+                  <input
+                    id="np-confirm"
+                    [type]="inputType('resetConfirm')"
+                    formControlName="confirm"
+                    placeholder="Re-enter password"
+                    [class.err]="
+                      resetForm.get('confirm')!.hasError('passwordsMismatch') &&
+                      resetForm.get('confirm')!.touched
+                    "
+                  />
+                  <button
+                    type="button"
+                    class="toggle-vis"
+                    (click)="toggleVisibility('resetConfirm')"
+                  >
+                    <app-icon
+                      [name]="visibility['resetConfirm'] ? 'eye-off' : 'eye'"
+                      [size]="18"
+                    ></app-icon>
+                  </button>
+                </div>
+                <div class="err-msg"><span>⚠</span><span>Passwords don't match.</span></div>
+              </div>
+
+              <button class="btn btn-primary btn-block" type="submit">Reset password</button>
+            </form>
+
+            <div class="dev-note">
+              Link states to design — valid (default),
+              <button type="button" (click)="goStep(5)">expired / invalid →</button>
+            </div>
+          </div>
+        }
+
+        <!-- Step 4: success -->
+        @if (forgotStep === 4) {
+          <div>
+            <div class="fp-icon ic-teal"><app-icon name="check-circle" [size]="26"></app-icon></div>
+            <h2>Password updated</h2>
+            <p class="sub">Your password has been changed. Use it next time you log in.</p>
+            <button class="btn btn-primary btn-block" (click)="backToLogin()">
+              Back to log in
+            </button>
+          </div>
+        }
+
+        <!-- Step 5: expired link error state -->
+        @if (forgotStep === 5) {
+          <div>
+            <div class="fp-icon fp-icon-error"><app-icon name="warn" [size]="26"></app-icon></div>
+            <h2>This link has expired</h2>
+            <p class="sub">Reset links are valid for 30 minutes. Request a new one to continue.</p>
+            <button class="btn btn-primary btn-block" (click)="goStep(1)">Send a new link</button>
+            <span
+              class="step-back"
+              role="button"
+              tabindex="0"
+              style="margin-top: 20px; margin-bottom: 0"
+              (click)="backToLogin()"
+              (keydown.enter)="backToLogin()"
+              (keydown.space)="backToLogin()"
+            >
+              <app-icon name="chevron-left" [size]="15"></app-icon> Back to log in
+            </span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
