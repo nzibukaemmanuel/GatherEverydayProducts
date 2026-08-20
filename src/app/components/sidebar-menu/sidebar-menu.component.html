@@ -1,0 +1,43 @@
+@if (open) {
+  <div class="sidebar-backdrop" (click)="close()"></div>
+
+  <aside class="sidebar-panel" role="dialog" aria-label="Site menu">
+    <div class="sidebar-head">
+      <span class="sidebar-title">Menu</span>
+      <button class="icon-btn" aria-label="Close menu" (click)="close()">
+        <app-icon name="close" [size]="18"></app-icon>
+      </button>
+    </div>
+
+    <nav class="sidebar-list">
+      @for (section of sections; track section.name) {
+        <div class="sidebar-item" [class.is-open]="isExpanded(section.name)">
+          <button
+            class="sidebar-row"
+            type="button"
+            (click)="toggle(section)"
+            [attr.aria-expanded]="section.links?.length ? isExpanded(section.name) : null"
+          >
+            <span class="sidebar-row-label">
+              <app-icon [name]="section.icon" [size]="18"></app-icon>
+              <span>{{ section.name }}</span>
+            </span>
+            @if (section.links?.length) {
+              <span class="sidebar-chevron">
+                <app-icon name="chevron-down" [size]="16"></app-icon>
+              </span>
+            }
+          </button>
+
+          @if (section.links?.length && isExpanded(section.name)) {
+            <div class="sidebar-sublist">
+              @for (link of section.links; track link) {
+                <a href="#" (click)="close()">{{ link }}</a>
+              }
+            </div>
+          }
+        </div>
+      }
+    </nav>
+  </aside>
+}

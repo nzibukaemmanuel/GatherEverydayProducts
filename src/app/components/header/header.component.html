@@ -1,5 +1,9 @@
 <header>
   <div class="wrap nav-row">
+    <button class="icon-btn sidebar-toggle" aria-label="Browse menu" (click)="toggleSidebar()">
+      <app-icon name="menu" [size]="20"></app-icon>
+    </button>
+
     <a class="logo" href="#">Gather<span>.</span></a>
 
     <nav class="primary-nav">
@@ -36,3 +40,5 @@
     </nav>
   }
 </header>
+
+<app-sidebar-menu [open]="sidebarOpen" (closed)="closeSidebar()"></app-sidebar-menu>

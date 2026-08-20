@@ -12,6 +12,10 @@ header {
   gap: 36px;
   height: 76px;
 }
+.sidebar-toggle {
+  flex-shrink: 0;
+}
+
 .logo {
   font-family: var(--font-display);
   font-weight: 700;

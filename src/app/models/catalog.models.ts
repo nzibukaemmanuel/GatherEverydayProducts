@@ -6,6 +6,13 @@ export interface Category {
   tint: Tint;
 }
 
+export interface MenuSection {
+  name: string;
+  icon: string;
+  /** Sub-links shown in the dropdown; omit for a plain top-level link. */
+  links?: string[];
+}
+
 export interface Product {
   sku: string;
   name: string;
