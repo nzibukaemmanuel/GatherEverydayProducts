@@ -94,7 +94,7 @@
   left: 8px;
   transform: rotate(4deg);
   z-index: 1;
-  background: var(--ink);
+  background: var(--ink-contrast);
   color: #fff;
   box-shadow: var(--shadow-raised);
 }

@@ -1,5 +1,5 @@
 .ticket {
-  background: var(--ink);
+  background: var(--ink-contrast);
   color: #f0f0f0;
   border-radius: var(--radius-lg);
   padding: 34px 46px;

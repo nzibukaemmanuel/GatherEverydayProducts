@@ -5,6 +5,10 @@
   --ink: #000000;
   --ink-soft: #9a9a9a;
   --ink-faint: #b6b6b6;
+  /* fixed dark surface for accent tiles/banners — unlike --ink, doesn't flip with theme */
+  --ink-contrast: #000000;
+  --ink-hover: #262626;
+  --header-bg: rgba(240, 240, 240, 0.92);
   --accent: #f16522;
   --accent-deep: #d95515;
   --accent-tint: #fce2d2;
@@ -29,6 +33,36 @@
   --font-display: 'Poppins', 'Inter', sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+:root[data-theme='dark'] {
+  --bg: #1b1b1b;
+  --bg-deep: #131313;
+  --panel: #1e1e1e;
+  --ink: #f0f0f0;
+  --ink-soft: #a3a3a3;
+  --ink-faint: #6f6f6f;
+  --ink-contrast: #000000;
+  --ink-hover: #d6d6d6;
+  --header-bg: rgba(27, 27, 27, 0.88);
+  --accent: #f16522;
+  --accent-deep: #ff7a3d;
+  --accent-tint: #3a2417;
+  --accent-soft: rgba(241, 101, 34, 0.22);
+  --teal: #f0f0f0;
+  --teal-deep: #f0f0f0;
+  --teal-tint: #262626;
+  --sand-tint: #262626;
+  --sand-deep: #a3a3a3;
+  --line: #333333;
+  --error: #ff6b57;
+  --error-tint: #3a1c17;
+  --shadow-card: 4px 4px 10px #101010, -4px -4px 10px #262626;
+  --shadow-pop: 12px 12px 28px #101010, -12px -12px 28px #262626;
+  --shadow-raised: 8px 8px 16px #101010, -8px -8px 16px #262626;
+  --shadow-raised-sm: 5px 5px 10px #101010, -5px -5px 10px #262626;
+  --shadow-inset: inset 4px 4px 8px #101010, inset -4px -4px 8px #262626;
+  --shadow-inset-sm: inset 2px 2px 5px #101010, inset -2px -2px 5px #262626;
 }
 
 * {
@@ -112,7 +146,7 @@ button {
   color: var(--bg);
 }
 .btn-primary:hover {
-  background: #262626;
+  background: var(--ink-hover);
 }
 .btn-primary:disabled {
   opacity: 0.55;

@@ -1,5 +1,5 @@
 .newsletter {
-  background: var(--ink);
+  background: var(--ink-contrast);
   color: #fff;
   border-radius: var(--radius-lg);
   padding: 44px 50px;

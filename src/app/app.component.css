@@ -1,5 +1,5 @@
 .proto-banner {
-  background: var(--ink);
+  background: var(--ink-contrast);
   color: #f0f0f0;
   font-size: 13px;
   text-align: center;

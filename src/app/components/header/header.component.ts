@@ -1,17 +1,20 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { IconComponent } from '../icon/icon.component';
 import { SidebarMenuComponent } from '../sidebar-menu/sidebar-menu.component';
 import { AuthModalService } from '../../core/auth-modal.service';
+import { ThemeService } from '../../core/theme.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [IconComponent, SidebarMenuComponent],
+  imports: [IconComponent, SidebarMenuComponent, AsyncPipe],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
   private readonly authModal = inject(AuthModalService);
+  readonly themeService = inject(ThemeService);
 
   cartCount = 2;
   mobileNavOpen = false;
