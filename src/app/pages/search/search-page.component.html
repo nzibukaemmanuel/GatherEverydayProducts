@@ -1,0 +1,16 @@
+<section class="product-list wrap">
+  <div class="section-head">
+    <h1>Search results for "{{ query }}"</h1>
+    <span class="count">{{ products.length }} item{{ products.length === 1 ? '' : 's' }}</span>
+  </div>
+
+  @if (!loading && products.length === 0) {
+    <p class="empty">No products matched your search.</p>
+  }
+
+  <div class="grid">
+    @for (p of products; track p.sku) {
+      <app-product-card [product]="p"></app-product-card>
+    }
+  </div>
+</section>

@@ -1,0 +1,130 @@
+.empty-cart {
+  padding: 80px 32px;
+  text-align: center;
+}
+.empty-cart p {
+  color: var(--ink-soft);
+  margin: 8px 0 24px;
+}
+.empty-cart .btn {
+  display: inline-flex;
+}
+
+.checkout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 40px;
+  padding: 40px 32px 76px;
+  align-items: start;
+}
+.forms h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 24px;
+}
+.panel {
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 26px;
+  margin-bottom: 20px;
+}
+.panel h2 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 16px;
+}
+.note {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin: -6px 0 16px;
+}
+.field {
+  margin-bottom: 14px;
+}
+.field label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.field input {
+  width: 100%;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 11px 13px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: var(--shadow-inset-sm);
+}
+.field-row {
+  display: flex;
+  gap: 14px;
+}
+.field-row .field {
+  flex: 1;
+}
+
+.error-banner {
+  background: var(--error-tint);
+  color: var(--error);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.summary {
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 26px;
+  position: sticky;
+  top: 100px;
+}
+.summary h2 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 16px;
+}
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 16px;
+}
+.line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+.totals {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.line.total {
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 16px;
+  font-family: var(--font-mono);
+  margin-top: 6px;
+}
+
+@media (max-width: 860px) {
+  .checkout {
+    grid-template-columns: 1fr;
+  }
+  .summary {
+    position: static;
+  }
+}

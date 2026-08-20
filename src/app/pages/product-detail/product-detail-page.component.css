@@ -1,0 +1,144 @@
+.not-found {
+  padding: 80px 32px;
+  text-align: center;
+}
+.not-found p {
+  color: var(--ink-soft);
+  margin: 8px 0 24px;
+}
+.not-found .btn {
+  display: inline-flex;
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  padding: 40px 32px 60px;
+  align-items: start;
+}
+.stage {
+  height: 380px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--ink-contrast);
+  color: #f0f0f0;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.breadcrumb {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+.info .sku {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-top: 10px;
+}
+.info h1 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 600;
+  margin: 6px 0 10px;
+}
+.dots {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 18px;
+}
+.dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.dots span.off {
+  background: var(--line);
+}
+.description {
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin: 0 0 22px;
+}
+.price {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 26px;
+}
+
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--panel);
+  border-radius: 999px;
+  box-shadow: var(--shadow-inset-sm);
+  padding: 8px 16px;
+}
+.stepper button {
+  background: none;
+  border: none;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stepper button:hover {
+  color: var(--accent);
+}
+.stepper span {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+.related {
+  padding: 0 32px 76px;
+}
+.related h2 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0 0 24px;
+}
+.related .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+@media (max-width: 860px) {
+  .detail {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .related .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

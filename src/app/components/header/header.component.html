@@ -4,17 +4,25 @@
       <app-icon name="menu" [size]="20"></app-icon>
     </button>
 
-    <a class="logo" href="#">Gather<span>.</span></a>
+    <a class="logo" routerLink="/">Gather<span>.</span></a>
 
     <nav class="primary-nav">
-      @for (link of navLinks; track link) {
-        <a href="#">{{ link }}</a>
+      @for (link of navLinks; track link.label) {
+        @if (link.categorySlug) {
+          <a [routerLink]="navPath(link)">{{ link.label }}</a>
+        } @else {
+          <a href="#">{{ link.label }}</a>
+        }
       }
     </nav>
 
     <div class="search-box">
       <app-icon name="search" [size]="16"></app-icon>
-      <input placeholder="Search products" />
+      <input
+        placeholder="Search products"
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="onSearchSubmit()"
+      />
     </div>
 
     <div class="header-actions">
@@ -25,14 +33,20 @@
       >
         <app-icon [name]="(themeService.theme$ | async) === 'dark' ? 'sun' : 'moon'" [size]="19"></app-icon>
       </button>
-      <button class="icon-btn" aria-label="Account" (click)="openLogin()">
-        <app-icon name="user" [size]="20"></app-icon>
-      </button>
-      <button class="icon-btn" aria-label="Cart">
+      @if (authService.currentUser$ | async; as user) {
+        <app-account-menu [user]="user"></app-account-menu>
+      } @else {
+        <button class="icon-btn" aria-label="Account" (click)="openLogin()">
+          <app-icon name="user" [size]="20"></app-icon>
+        </button>
+      }
+      <button class="icon-btn" aria-label="Cart" (click)="cartDrawer.toggle()">
         <app-icon name="cart" [size]="20"></app-icon>
-        <span class="cart-badge">{{ cartCount }}</span>
+        <span class="cart-badge">{{ cartService.totalCount$ | async }}</span>
       </button>
-      <button class="btn btn-primary" (click)="openSignup()">Sign up</button>
+      @if (!(authService.currentUser$ | async)) {
+        <button class="btn btn-primary" (click)="openSignup()">Sign up</button>
+      }
       <button class="hamburger icon-btn" aria-label="Menu" (click)="toggleMobileNav()">
         <app-icon name="menu" [size]="20"></app-icon>
       </button>
@@ -41,8 +55,12 @@
 
   @if (mobileNavOpen) {
     <nav class="mobile-nav">
-      @for (link of navLinks; track link) {
-        <a href="#">{{ link }}</a>
+      @for (link of navLinks; track link.label) {
+        @if (link.categorySlug) {
+          <a [routerLink]="navPath(link)" (click)="mobileNavOpen = false">{{ link.label }}</a>
+        } @else {
+          <a href="#">{{ link.label }}</a>
+        }
       }
     </nav>
   }

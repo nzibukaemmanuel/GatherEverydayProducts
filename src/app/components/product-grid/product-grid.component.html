@@ -4,44 +4,12 @@
       <span class="eyebrow">This week</span>
       <h2>New arrivals</h2>
     </div>
-    <a href="#">View all 128 →</a>
+    <a routerLink="/products">View all →</a>
   </div>
 
   <div class="grid">
     @for (p of products; track p.sku) {
-      <article class="card">
-        <div class="stage" [ngClass]="'ic-' + p.tint">
-          @if (p.badge) {
-            <span class="badge">{{ p.badge }}</span>
-          }
-          <app-icon [name]="p.icon" [size]="64"></app-icon>
-        </div>
-
-        <div class="row-top">
-          <div>
-            <div class="sku">{{ p.sku }}</div>
-            <div class="pname">{{ p.name }}</div>
-          </div>
-        </div>
-
-        <div class="row-bottom">
-          <div>
-            <div class="pprice">${{ p.price }}</div>
-            <div class="dots">
-              @for (filled of ratingDots(p.rating); track $index) {
-                <span [class.off]="!filled"></span>
-              }
-            </div>
-          </div>
-          <button
-            class="add-btn"
-            [attr.aria-label]="'Add ' + p.name + ' to cart'"
-            (click)="addToCart(p.sku)"
-          >
-            <app-icon [name]="isAdded(p.sku) ? 'check' : 'plus'" [size]="16"></app-icon>
-          </button>
-        </div>
-      </article>
+      <app-product-card [product]="p"></app-product-card>
     }
   </div>
 </section>

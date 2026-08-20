@@ -12,27 +12,51 @@
     <nav class="sidebar-list">
       @for (section of sections; track section.name) {
         <div class="sidebar-item" [class.is-open]="isExpanded(section.name)">
-          <button
-            class="sidebar-row"
-            type="button"
-            (click)="toggle(section)"
-            [attr.aria-expanded]="section.links?.length ? isExpanded(section.name) : null"
-          >
-            <span class="sidebar-row-label">
-              <app-icon [name]="section.icon" [size]="18"></app-icon>
-              <span>{{ section.name }}</span>
-            </span>
-            @if (section.links?.length) {
-              <span class="sidebar-chevron">
-                <app-icon name="chevron-down" [size]="16"></app-icon>
+          @if (section.categorySlug) {
+            <a class="sidebar-row" [routerLink]="categoryPath(section)" (click)="close()">
+              <span class="sidebar-row-label">
+                <app-icon [name]="section.icon" [size]="18"></app-icon>
+                <span>{{ section.name }}</span>
               </span>
-            }
-          </button>
+              @if (section.links?.length) {
+                <button
+                  type="button"
+                  class="sidebar-chevron"
+                  [attr.aria-expanded]="isExpanded(section.name)"
+                  [attr.aria-label]="'Toggle ' + section.name + ' subcategories'"
+                  (click)="$event.preventDefault(); $event.stopPropagation(); toggleExpand(section)"
+                >
+                  <app-icon name="chevron-down" [size]="16"></app-icon>
+                </button>
+              }
+            </a>
+          } @else {
+            <button
+              class="sidebar-row"
+              type="button"
+              (click)="onRowClick(section)"
+              [attr.aria-expanded]="section.links?.length ? isExpanded(section.name) : null"
+            >
+              <span class="sidebar-row-label">
+                <app-icon [name]="section.icon" [size]="18"></app-icon>
+                <span>{{ section.name }}</span>
+              </span>
+              @if (section.links?.length) {
+                <span class="sidebar-chevron">
+                  <app-icon name="chevron-down" [size]="16"></app-icon>
+                </span>
+              }
+            </button>
+          }
 
           @if (section.links?.length && isExpanded(section.name)) {
             <div class="sidebar-sublist">
               @for (link of section.links; track link) {
-                <a href="#" (click)="close()">{{ link }}</a>
+                @if (section.categorySlug) {
+                  <a [routerLink]="categoryPath(section)" (click)="close()">{{ link }}</a>
+                } @else {
+                  <a href="#" (click)="close()">{{ link }}</a>
+                }
               }
             </div>
           }

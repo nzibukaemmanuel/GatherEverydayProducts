@@ -1,0 +1,55 @@
+@if (notFound) {
+  <section class="wrap not-found">
+    <h1>Product not found</h1>
+    <p>We couldn't find that product.</p>
+    <a class="btn btn-primary" routerLink="/products">Browse all products</a>
+  </section>
+} @else if (product) {
+  <section class="detail wrap">
+    <div class="stage" [ngClass]="'ic-' + product.tint">
+      @if (product.badge) {
+        <span class="badge">{{ product.badge }}</span>
+      }
+      <app-icon [name]="product.icon" [size]="120"></app-icon>
+    </div>
+
+    <div class="info">
+      @if (product.category) {
+        <a class="breadcrumb" [routerLink]="['/category', product.category]">{{ product.category }}</a>
+      }
+      <div class="sku">{{ product.sku }}</div>
+      <h1>{{ product.name }}</h1>
+      <div class="dots">
+        @for (filled of ratingDots(product.rating); track $index) {
+          <span [class.off]="!filled"></span>
+        }
+      </div>
+      <p class="description">{{ product.description }}</p>
+      <div class="price">${{ product.price }}</div>
+
+      <div class="qty-row">
+        <div class="stepper">
+          <button type="button" aria-label="Decrease quantity" (click)="changeQty(-1)">
+            <app-icon name="minus" [size]="14"></app-icon>
+          </button>
+          <span>{{ qty }}</span>
+          <button type="button" aria-label="Increase quantity" (click)="changeQty(1)">
+            <app-icon name="plus" [size]="14"></app-icon>
+          </button>
+        </div>
+        <button type="button" class="btn btn-accent" (click)="addToCart()">Add to cart</button>
+      </div>
+    </div>
+  </section>
+
+  @if (related.length) {
+    <section class="related wrap">
+      <h2>You might also like</h2>
+      <div class="grid">
+        @for (p of related; track p.sku) {
+          <app-product-card [product]="p"></app-product-card>
+        }
+      </div>
+    </section>
+  }
+}

@@ -1,0 +1,40 @@
+<article
+  class="card"
+  role="link"
+  tabindex="0"
+  [attr.aria-label]="'View ' + product.name"
+  (click)="goToDetail()"
+  (keydown.enter)="goToDetail()"
+>
+  <div class="stage" [ngClass]="'ic-' + product.tint">
+    @if (product.badge) {
+      <span class="badge">{{ product.badge }}</span>
+    }
+    <app-icon [name]="product.icon" [size]="64"></app-icon>
+  </div>
+
+  <div class="row-top">
+    <div>
+      <div class="sku">{{ product.sku }}</div>
+      <div class="pname">{{ product.name }}</div>
+    </div>
+  </div>
+
+  <div class="row-bottom">
+    <div>
+      <div class="pprice">${{ product.price }}</div>
+      <div class="dots">
+        @for (filled of ratingDots(product.rating); track $index) {
+          <span [class.off]="!filled"></span>
+        }
+      </div>
+    </div>
+    <button
+      class="add-btn"
+      [attr.aria-label]="'Add ' + product.name + ' to cart'"
+      (click)="onAddToCart($event)"
+    >
+      <app-icon [name]="justAdded ? 'check' : 'plus'" [size]="16"></app-icon>
+    </button>
+  </div>
+</article>

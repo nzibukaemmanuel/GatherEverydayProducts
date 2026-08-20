@@ -146,6 +146,15 @@
   display: flex;
 }
 
+.form-error {
+  background: var(--error-tint);
+  color: var(--error);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  margin: 0 0 16px;
+}
+
 .strength {
   display: flex;
   gap: 4px;

@@ -1,23 +1,10 @@
-@if (protoBannerVisible) {
-  <div class="proto-banner">
-    <span
-      >Prototype preview — click <strong>Sign up</strong> in the header, or open
-      <strong>Log in → Forgot password?</strong> to try the flows.</span
-    >
-    <button aria-label="Dismiss" (click)="dismissBanner()">✕</button>
-  </div>
-}
-
 <app-header></app-header>
 
 <main>
-  <app-hero></app-hero>
-  <app-categories></app-categories>
-  <app-product-grid></app-product-grid>
-  <app-promo-banner></app-promo-banner>
-  <app-newsletter></app-newsletter>
+  <router-outlet></router-outlet>
 </main>
 
 <app-footer></app-footer>
 
 <app-auth-modal></app-auth-modal>
+<app-cart-drawer></app-cart-drawer>

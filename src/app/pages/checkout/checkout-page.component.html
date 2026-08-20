@@ -1,0 +1,100 @@
+@if (items.length === 0) {
+  <section class="wrap empty-cart">
+    <h1>Your cart is empty</h1>
+    <p>Add something to your cart before checking out.</p>
+    <a class="btn btn-primary" routerLink="/products">Browse products</a>
+  </section>
+} @else {
+  <section class="checkout wrap">
+    <form class="forms" [formGroup]="shippingForm" (ngSubmit)="submit()">
+      <h1>Checkout</h1>
+
+      <div class="panel">
+        <h2>Shipping details</h2>
+
+        @if (!(currentUser$ | async)) {
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+          </div>
+        }
+
+        <div class="field">
+          <label for="name">Full name</label>
+          <input id="name" formControlName="name" placeholder="Jordan Ellis" />
+        </div>
+        <div class="field">
+          <label for="address">Address</label>
+          <input id="address" formControlName="address" placeholder="1 Main St" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="city">City</label>
+            <input id="city" formControlName="city" placeholder="Accra" />
+          </div>
+          <div class="field">
+            <label for="postal">Postal code</label>
+            <input id="postal" formControlName="postal" placeholder="00233" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="country">Country</label>
+          <input id="country" formControlName="country" placeholder="Ghana" />
+        </div>
+      </div>
+
+      <div class="panel" [formGroup]="paymentForm">
+        <h2>Payment</h2>
+        <p class="note">Demo checkout — no real card is charged.</p>
+        <div class="field">
+          <label for="cardNumber">Card number</label>
+          <input id="cardNumber" formControlName="cardNumber" placeholder="4242424242424242" inputmode="numeric" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="expiry">Expiry (MM/YY)</label>
+            <input id="expiry" formControlName="expiry" placeholder="12/28" />
+          </div>
+          <div class="field">
+            <label for="cvc">CVC</label>
+            <input id="cvc" formControlName="cvc" placeholder="123" inputmode="numeric" />
+          </div>
+        </div>
+      </div>
+
+      @if (errorMessage) {
+        <p class="error-banner">{{ errorMessage }}</p>
+      }
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="submitting">
+        {{ submitting ? 'Placing order…' : 'Place order — $' + total }}
+      </button>
+    </form>
+
+    <aside class="summary">
+      <h2>Order summary</h2>
+      <div class="lines">
+        @for (item of items; track item.sku) {
+          <div class="line">
+            <span>{{ item.name }} × {{ item.qty }}</span>
+            <span>${{ item.price * item.qty }}</span>
+          </div>
+        }
+      </div>
+      <div class="totals">
+        <div class="line">
+          <span>Subtotal</span>
+          <span>${{ subtotal }}</span>
+        </div>
+        <div class="line">
+          <span>Shipping</span>
+          <span>{{ shippingFee === 0 ? 'Free' : '$' + shippingFee }}</span>
+        </div>
+        <div class="line total">
+          <span>Total</span>
+          <span>${{ total }}</span>
+        </div>
+      </div>
+    </aside>
+  </section>
+}

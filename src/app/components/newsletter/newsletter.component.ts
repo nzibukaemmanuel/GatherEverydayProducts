@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-newsletter',
@@ -9,15 +9,23 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrl: './newsletter.component.css',
 })
 export class NewsletterComponent {
-  email = new FormControl('', [Validators.required, Validators.email]);
+  form = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+  });
+
+  constructor(private readonly fb: FormBuilder) {}
+
+  get email() {
+    return this.form.controls.email;
+  }
 
   subscribe(): void {
-    if (this.email.invalid) {
-      this.email.markAsTouched();
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
       return;
     }
     // Demo only — a real implementation would POST to a subscriptions endpoint.
     alert('Subscribed — demo only.');
-    this.email.reset();
+    this.form.reset();
   }
 }

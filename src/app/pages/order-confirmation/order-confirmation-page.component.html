@@ -1,0 +1,51 @@
+@if (notFound) {
+  <section class="wrap state">
+    <h1>Order not found</h1>
+    <a class="btn btn-primary" routerLink="/">Back to home</a>
+  </section>
+} @else if (order) {
+  <section class="wrap confirmation">
+    <span class="check-badge">
+      <app-icon name="check-circle" [size]="28"></app-icon>
+    </span>
+    <h1>Thank you — order confirmed</h1>
+    <p class="order-number">Order #{{ order.id }}</p>
+
+    <div class="panel">
+      <div class="lines">
+        @for (item of order.items; track item.sku) {
+          <div class="line">
+            <span>{{ item.name }} × {{ item.qty }}</span>
+            <span>${{ item.price * item.qty }}</span>
+          </div>
+        }
+      </div>
+      <div class="totals">
+        <div class="line">
+          <span>Subtotal</span>
+          <span>${{ order.subtotal }}</span>
+        </div>
+        <div class="line">
+          <span>Shipping</span>
+          <span>{{ order.shipping_fee === 0 ? 'Free' : '$' + order.shipping_fee }}</span>
+        </div>
+        <div class="line total">
+          <span>Total</span>
+          <span>${{ order.total }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Shipping to</h2>
+      <p>
+        {{ order.shipping_name }}<br />
+        {{ order.shipping_address }}<br />
+        {{ order.shipping_city }}, {{ order.shipping_postal }}<br />
+        {{ order.shipping_country }}
+      </p>
+    </div>
+
+    <a class="btn btn-ghost" routerLink="/products">Continue shopping</a>
+  </section>
+}

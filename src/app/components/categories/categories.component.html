@@ -1,7 +1,7 @@
 <section class="categories">
   <div class="wrap cat-row">
     @for (cat of categories; track cat.name) {
-      <a class="cat-pill" href="#featured">
+      <a class="cat-pill" [routerLink]="['/category', cat.slug]">
         <span class="icon-wrap" [ngClass]="'ic-' + cat.tint">
           <app-icon [name]="cat.icon" [size]="22"></app-icon>
         </span>

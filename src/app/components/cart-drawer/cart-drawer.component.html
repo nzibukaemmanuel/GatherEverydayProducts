@@ -1,0 +1,53 @@
+@if (open$ | async) {
+  <div class="cart-backdrop" (click)="close()"></div>
+
+  <aside class="cart-panel" role="dialog" aria-label="Cart">
+    <div class="cart-head">
+      <span class="cart-title">Your cart</span>
+      <button class="icon-btn" aria-label="Close cart" (click)="close()">
+        <app-icon name="close" [size]="18"></app-icon>
+      </button>
+    </div>
+
+    @if ((items$ | async)?.length) {
+      <div class="cart-lines">
+        @for (item of items$ | async; track item.sku) {
+          <div class="cart-line">
+            <span class="line-icon" [ngClass]="'ic-' + item.tint">
+              <app-icon [name]="item.icon" [size]="24"></app-icon>
+            </span>
+            <div class="line-info">
+              <div class="line-name">{{ item.name }}</div>
+              <div class="line-price">${{ item.price }}</div>
+              <div class="stepper">
+                <button type="button" aria-label="Decrease quantity" (click)="changeQty(item, -1)">
+                  <app-icon name="minus" [size]="12"></app-icon>
+                </button>
+                <span>{{ item.qty }}</span>
+                <button type="button" aria-label="Increase quantity" (click)="changeQty(item, 1)">
+                  <app-icon name="plus" [size]="12"></app-icon>
+                </button>
+              </div>
+            </div>
+            <button class="remove-btn" [attr.aria-label]="'Remove ' + item.name" (click)="remove(item.sku)">
+              <app-icon name="trash" [size]="16"></app-icon>
+            </button>
+          </div>
+        }
+      </div>
+
+      <div class="cart-footer">
+        <div class="subtotal-row">
+          <span>Subtotal</span>
+          <span>${{ subtotal$ | async }}</span>
+        </div>
+        <a class="btn btn-primary btn-block" routerLink="/checkout" (click)="close()">Checkout</a>
+      </div>
+    } @else {
+      <div class="cart-empty">
+        <p>Your cart is empty.</p>
+        <a class="btn btn-ghost" routerLink="/products" (click)="close()">Browse products</a>
+      </div>
+    }
+  </aside>
+}

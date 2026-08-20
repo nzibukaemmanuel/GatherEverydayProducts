@@ -1,0 +1,89 @@
+.state {
+  padding: 80px 32px;
+  text-align: center;
+}
+.state .btn {
+  display: inline-flex;
+  margin-top: 16px;
+}
+
+.confirmation {
+  max-width: 560px;
+  padding: 60px 32px 80px;
+  text-align: center;
+}
+.check-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--panel);
+  box-shadow: var(--shadow-raised-sm);
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+.confirmation h1 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+.order-number {
+  font-family: var(--font-mono);
+  color: var(--ink-soft);
+  margin: 0 0 30px;
+}
+
+.panel {
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 24px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+.panel h2 {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+.panel p {
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 14px;
+}
+.line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+.totals {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.line.total {
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 16px;
+  font-family: var(--font-mono);
+  margin-top: 6px;
+}
+
+.confirmation .btn {
+  display: inline-flex;
+  margin-top: 8px;
+}

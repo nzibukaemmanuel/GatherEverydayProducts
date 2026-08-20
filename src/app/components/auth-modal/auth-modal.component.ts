@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { IconComponent } from '../icon/icon.component';
 import { AuthModalService, AuthModalState, AuthTab } from '../../core/auth-modal.service';
+import { AuthService } from '../../core/auth.service';
 import { passwordsMatchValidator, passwordStrength } from '../../core/password-match.validator';
 
 type View = 'auth' | 'forgot';
@@ -18,6 +19,7 @@ type View = 'auth' | 'forgot';
 export class AuthModalComponent implements OnInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly authModal = inject(AuthModalService);
+  private readonly authService = inject(AuthService);
 
   modalState: AuthModalState = { open: false, tab: 'login' };
   view: View = 'auth';
@@ -25,8 +27,8 @@ export class AuthModalComponent implements OnInit, OnDestroy {
   forgotStep = 1;
   resetEmail = '';
 
-  // demo-only UI state
-  loginError = false;
+  loginError: string | null = null;
+  signupError: string | null = null;
   signupSubmitting = false;
   resendDisabled = false;
 
@@ -81,8 +83,16 @@ export class AuthModalComponent implements OnInit, OnDestroy {
     this.authModal.close();
   }
 
+  onOverlayClick(event: MouseEvent): void {
+    if (event.target === event.currentTarget) {
+      this.close();
+    }
+  }
+
   setTab(tab: AuthTab): void {
     this.activeTab = tab;
+    this.loginError = null;
+    this.signupError = null;
   }
 
   toggleVisibility(field: string): void {
@@ -107,12 +117,14 @@ export class AuthModalComponent implements OnInit, OnDestroy {
       this.loginForm.markAllAsTouched();
       return;
     }
-    this.close();
-    alert('Logged in — demo only. In production this would redirect to the account or homepage.');
-  }
-
-  previewLoginError(): void {
-    this.loginError = true;
+    this.loginError = null;
+    const { email, password } = this.loginForm.value;
+    this.authService.login(email!, password!).subscribe({
+      next: () => this.close(),
+      error: (err) => {
+        this.loginError = err.error?.message || 'Incorrect email or password — try again.';
+      },
+    });
   }
 
   /* ---------- signup ---------- */
@@ -121,12 +133,19 @@ export class AuthModalComponent implements OnInit, OnDestroy {
       this.signupForm.markAllAsTouched();
       return;
     }
+    this.signupError = null;
     this.signupSubmitting = true;
-    setTimeout(() => {
-      this.signupSubmitting = false;
-      this.close();
-      alert('Account created — demo only. In production this would redirect to a welcome screen.');
-    }, 900);
+    const { name, email, password } = this.signupForm.value;
+    this.authService.signup(name!, email!, password!).subscribe({
+      next: () => {
+        this.signupSubmitting = false;
+        this.close();
+      },
+      error: (err) => {
+        this.signupSubmitting = false;
+        this.signupError = err.error?.message || 'Something went wrong creating your account.';
+      },
+    });
   }
 
   /* ---------- forgot password ---------- */
@@ -138,7 +157,7 @@ export class AuthModalComponent implements OnInit, OnDestroy {
   backToLogin(): void {
     this.view = 'auth';
     this.activeTab = 'login';
-    this.loginError = false;
+    this.loginError = null;
   }
 
   goStep(step: number): void {

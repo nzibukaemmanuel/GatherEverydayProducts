@@ -1,0 +1,12 @@
+<div class="account-menu">
+  <button class="icon-btn" aria-label="Account menu" (click)="toggle()">
+    <app-icon name="user" [size]="20"></app-icon>
+  </button>
+
+  @if (open) {
+    <div class="popover">
+      <div class="signed-in-as">Signed in as<br /><strong>{{ user.name }}</strong></div>
+      <button class="logout-btn" (click)="logout()">Log out</button>
+    </div>
+  }
+</div>

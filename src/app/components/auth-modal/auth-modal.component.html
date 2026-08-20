@@ -2,7 +2,7 @@
   class="overlay"
   [class.show]="modalState.open"
   tabindex="-1"
-  (click)="$event.target === $event.currentTarget && close()"
+  (click)="onOverlayClick($event)"
   (keydown.escape)="close()"
 >
   <div class="modal" role="dialog" aria-modal="true">
@@ -65,7 +65,7 @@
                   </button>
                 </div>
                 <div class="err-msg">
-                  <span>⚠</span><span>Incorrect email or password — try again.</span>
+                  <span>⚠</span><span>{{ loginError || 'Enter your password.' }}</span>
                 </div>
               </div>
 
@@ -74,11 +74,6 @@
               >
               <button class="btn btn-primary btn-block" type="submit">Log in</button>
             </form>
-
-            <div class="dev-note">
-              Field states to design — default, focus,
-              <button type="button" (click)="previewLoginError()">error →</button>
-            </div>
 
             <div class="divider">or continue with</div>
             <div class="social-auth">
@@ -97,6 +92,10 @@
           <div>
             <h2>Create your account</h2>
             <p class="sub">Takes under a minute — free shipping on your first order.</p>
+
+            @if (signupError) {
+              <p class="form-error">{{ signupError }}</p>
+            }
 
             <form [formGroup]="signupForm" (ngSubmit)="onSignupSubmit()">
               <div class="field">

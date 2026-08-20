@@ -1,28 +1,22 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { IconComponent } from '../icon/icon.component';
-import { PRODUCTS } from '../../data/catalog.data';
+import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { ProductCardComponent } from '../product-card/product-card.component';
+import { ProductsService } from '../../core/products.service';
+import { Product } from '../../models/catalog.models';
 
 @Component({
   selector: 'app-product-grid',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [ProductCardComponent, RouterLink],
   templateUrl: './product-grid.component.html',
   styleUrl: './product-grid.component.css',
 })
-export class ProductGridComponent {
-  products = PRODUCTS;
-  private addedSkus = new Set<string>();
+export class ProductGridComponent implements OnInit {
+  products: Product[] = [];
 
-  ratingDots(rating: number): boolean[] {
-    return [0, 1, 2].map((i) => i < rating);
-  }
+  constructor(private readonly productsService: ProductsService) {}
 
-  isAdded(sku: string): boolean {
-    return this.addedSkus.has(sku);
-  }
-
-  addToCart(sku: string): void {
-    this.addedSkus.add(sku);
+  ngOnInit(): void {
+    this.productsService.list({ featured: true }).subscribe((products) => (this.products = products));
   }
 }
