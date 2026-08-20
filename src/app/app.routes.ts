@@ -14,6 +14,7 @@ export const routes: Routes = [
   { path: 'product/:sku', component: ProductDetailPageComponent },
   { path: 'search', component: SearchPageComponent },
   { path: 'checkout', component: CheckoutPageComponent },
+  { path: 'reset-password', component: HomePageComponent },
   { path: 'order-confirmation/:id', component: OrderConfirmationPageComponent },
   { path: '**', redirectTo: '' },
 ];

@@ -26,6 +26,10 @@
             <h2>Welcome back</h2>
             <p class="sub">Log in to check order status, saved items and faster checkout.</p>
 
+            @if (loginNotice) {
+              <p class="form-success">{{ loginNotice }}</p>
+            }
+
             <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
               <div class="field">
                 <label for="li-email">Email</label>
@@ -224,6 +228,10 @@
               Enter the email on your account and we'll send a link to reset your password.
             </p>
 
+            @if (forgotError) {
+              <p class="form-error">{{ forgotError }}</p>
+            }
+
             <form [formGroup]="forgotForm" (ngSubmit)="onForgotEmailSubmit()">
               <div
                 class="field"
@@ -273,10 +281,6 @@
             >
               <app-icon name="chevron-left" [size]="15"></app-icon> Back to log in
             </span>
-            <div class="dev-note">
-              Prototype note — normally this screen is reached by clicking the emailed link.
-              <button type="button" (click)="goStep(3)">Continue to reset password →</button>
-            </div>
           </div>
         }
 
@@ -289,6 +293,10 @@
               Choose a new password for <span class="email-echo">{{ resetEmail }}</span
               >.
             </p>
+
+            @if (resetError) {
+              <p class="form-error">{{ resetError }}</p>
+            }
 
             <form [formGroup]="resetForm" (ngSubmit)="onResetSubmit()">
               <div class="field">
@@ -351,11 +359,6 @@
 
               <button class="btn btn-primary btn-block" type="submit">Reset password</button>
             </form>
-
-            <div class="dev-note">
-              Link states to design — valid (default),
-              <button type="button" (click)="goStep(5)">expired / invalid →</button>
-            </div>
           </div>
         }
 

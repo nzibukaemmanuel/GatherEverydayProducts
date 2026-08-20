@@ -26,11 +26,15 @@ export class AuthModalComponent implements OnInit, OnDestroy {
   activeTab: AuthTab = 'login';
   forgotStep = 1;
   resetEmail = '';
+  resetToken: string | null = null;
 
   loginError: string | null = null;
+  loginNotice: string | null = null;
   signupError: string | null = null;
   signupSubmitting = false;
   resendDisabled = false;
+  forgotError: string | null = null;
+  resetError: string | null = null;
 
   // password visibility toggles, keyed per field
   visibility: Record<string, boolean> = {};
@@ -69,8 +73,16 @@ export class AuthModalComponent implements OnInit, OnDestroy {
     this.sub = this.authModal.state$.subscribe((state) => {
       this.modalState = state;
       if (state.open) {
-        this.view = 'auth';
-        this.activeTab = state.tab;
+        if (state.resetToken) {
+          this.view = 'forgot';
+          this.resetToken = state.resetToken;
+          this.resetError = null;
+          this.forgotStep = state.resetTokenValid ? 3 : 5;
+        } else {
+          this.view = 'auth';
+          this.activeTab = state.tab;
+          this.loginNotice = null;
+        }
       }
     });
   }
@@ -92,6 +104,7 @@ export class AuthModalComponent implements OnInit, OnDestroy {
   setTab(tab: AuthTab): void {
     this.activeTab = tab;
     this.loginError = null;
+    this.loginNotice = null;
     this.signupError = null;
   }
 
@@ -118,6 +131,7 @@ export class AuthModalComponent implements OnInit, OnDestroy {
       return;
     }
     this.loginError = null;
+    this.loginNotice = null;
     const { email, password } = this.loginForm.value;
     this.authService.login(email!, password!).subscribe({
       next: () => this.close(),
@@ -139,7 +153,11 @@ export class AuthModalComponent implements OnInit, OnDestroy {
     this.authService.signup(name!, email!, password!).subscribe({
       next: () => {
         this.signupSubmitting = false;
-        this.close();
+        this.signupForm.reset();
+        this.activeTab = 'login';
+        this.loginError = null;
+        this.loginNotice = 'Account created — log in to continue.';
+        this.loginForm.patchValue({ email });
       },
       error: (err) => {
         this.signupSubmitting = false;
@@ -158,6 +176,9 @@ export class AuthModalComponent implements OnInit, OnDestroy {
     this.view = 'auth';
     this.activeTab = 'login';
     this.loginError = null;
+    this.resetToken = null;
+    this.forgotError = null;
+    this.resetError = null;
   }
 
   goStep(step: number): void {
@@ -169,12 +190,19 @@ export class AuthModalComponent implements OnInit, OnDestroy {
       this.forgotForm.markAllAsTouched();
       return;
     }
+    this.forgotError = null;
     this.resetEmail = this.forgotForm.value.email ?? '';
-    this.forgotStep = 2;
+    this.authService.forgotPassword(this.resetEmail).subscribe({
+      next: () => (this.forgotStep = 2),
+      error: (err) => {
+        this.forgotError = err.error?.message || 'Something went wrong. Try again.';
+      },
+    });
   }
 
   resendLink(): void {
     this.resendDisabled = true;
+    this.authService.forgotPassword(this.resetEmail).subscribe();
     setTimeout(() => (this.resendDisabled = false), 2500);
   }
 
@@ -183,6 +211,21 @@ export class AuthModalComponent implements OnInit, OnDestroy {
       this.resetForm.markAllAsTouched();
       return;
     }
-    this.forgotStep = 4;
+    if (!this.resetToken) {
+      this.forgotStep = 5;
+      return;
+    }
+    this.resetError = null;
+    const { password } = this.resetForm.value;
+    this.authService.resetPassword(this.resetToken, password!).subscribe({
+      next: () => (this.forgotStep = 4),
+      error: (err) => {
+        if (err.status === 400) {
+          this.forgotStep = 5;
+        } else {
+          this.resetError = err.error?.message || 'Something went wrong. Try again.';
+        }
+      },
+    });
   }
 }

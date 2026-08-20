@@ -28,9 +28,7 @@ export class AuthService {
   }
 
   signup(name: string, email: string, password: string): Observable<AuthResponse> {
-    return this.http
-      .post<AuthResponse>(`${environment.apiUrl}/auth/signup`, { name, email, password })
-      .pipe(tap((response) => this.persist(response)));
+    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/signup`, { name, email, password });
   }
 
   login(email: string, password: string): Observable<AuthResponse> {
@@ -42,6 +40,23 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(STORAGE_KEY);
     this.userSubject.next(null);
+  }
+
+  forgotPassword(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${environment.apiUrl}/auth/forgot-password`, { email });
+  }
+
+  validateResetToken(token: string): Observable<{ valid: boolean }> {
+    return this.http.get<{ valid: boolean }>(`${environment.apiUrl}/auth/reset-password/validate`, {
+      params: { token },
+    });
+  }
+
+  resetPassword(token: string, password: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${environment.apiUrl}/auth/reset-password`, {
+      token,
+      password,
+    });
   }
 
   private persist(response: AuthResponse): void {

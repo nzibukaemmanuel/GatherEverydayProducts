@@ -6,6 +6,8 @@ export type AuthTab = 'login' | 'signup';
 export interface AuthModalState {
   open: boolean;
   tab: AuthTab;
+  resetToken?: string;
+  resetTokenValid?: boolean;
 }
 
 /**
@@ -29,7 +31,11 @@ export class AuthModalService {
     this.stateSubject.next({ open: true, tab: 'signup' });
   }
 
+  openResetPassword(token: string, valid: boolean): void {
+    this.stateSubject.next({ open: true, tab: 'login', resetToken: token, resetTokenValid: valid });
+  }
+
   close(): void {
-    this.stateSubject.next({ ...this.stateSubject.value, open: false });
+    this.stateSubject.next({ ...this.stateSubject.value, open: false, resetToken: undefined });
   }
 }
